@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Create a new article on the News Platform. Only authenticated users can submit articles."
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="icon" href="data:," />
+
+    <title>News Platform | Create Article</title>
+    <script type="module" src="/js/pages/create.page.js"></script>
+  </head>
+
+  <body class="page">
+    <nav class="nav">
+      <div class="nav-top">
+        <a href="/index.html" class="brand" aria-label="News Platform home">
+          <span class="brand-mark">NP</span>
+          <span class="brand-name">News Platform</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="navMenu"
+          aria-label="Open menu"
+        >
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+          <span class="sr-only">Menu</span>
+        </button>
+      </div>
+
+      <div class="nav-menu" id="navMenu">
+        <a href="/index.html">Home</a>
+        <a href="/create.html" data-nav-create>Create</a>
+
+        <span class="nav-user" data-nav-user style="display: none"></span>
+
+        <a class="btn" href="/login.html" data-nav-login>Login</a>
+        <a class="btn" href="/register.html" data-nav-register>Register</a>
+
+        <button class="btn btn-primary" type="button" data-nav-logout>
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <main class="container">
+      <header class="page-header">
+        <h1>Create Article</h1>
+        <p class="small">Share a news update with the community.</p>
+      </header>
+
+      <div class="form-card">
+        <form class="form" id="createForm" novalidate>
+          <label for="title">
+            Title
+          </label>
+          <input id="title" name="title" type="text" required placeholder="e.g. City opens new public library" />
+
+          <label for="category">
+            Category
+          </label>
+          <input
+            id="category"
+            name="category"
+            type="text"
+            required
+            placeholder="e.g. Local"
+          />
+
+          <label for="body">
+            Body
+          </label>
+          <textarea id="body" name="body" required placeholder="Write your article here..."></textarea>
+
+          <button class="primary" id="createBtn" type="submit">
+            Submit Article
+          </button>
+
+          <p class="message" id="formMessage"></p>
+        </form>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p>© <span data-year></span> News Platform</p>
+        <p class="small">Built with Supabase + Vanilla JS</p>
+      </div>
+    </footer>
+  </body>
+</html>

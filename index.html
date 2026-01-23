@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A simple news platform where anyone can browse articles and authenticated users can submit new articles."
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <title>News Platform | Home</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script type="module" src="/js/pages/index.page.js"></script>
+  </head>
+  <body class="page">
+    <nav class="nav">
+      <div class="nav-top">
+        <a href="/index.html" class="brand" aria-label="News Platform home">
+          <span class="brand-mark">NP</span>
+          <span class="brand-name">News Platform</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="navMenu"
+        >
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+          <span class="sr-only">Menu</span>
+        </button>
+      </div>
+
+      <div class="nav-menu" id="navMenu">
+        <a href="/index.html">Home</a>
+        <a href="/create.html" data-nav-create>Create</a>
+
+        <span class="nav-user" data-nav-user style="display: none"></span>
+
+        <a class="btn" href="/login.html" data-nav-login>Login</a>
+        <a class="btn" href="/register.html" data-nav-register>Register</a>
+
+        <button class="btn btn-primary" type="button" data-nav-logout>
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <main class="container">
+      <h1>Latest Articles</h1>
+      <p class="small" id="pageMessage"></p>
+      <section id="articlesList"></section>
+    </main>
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p>© <span data-year></span> News Platform</p>
+        <p class="small">Built with Supabase + Vanilla JS</p>
+      </div>
+    </footer>
+  </body>
+</html>
