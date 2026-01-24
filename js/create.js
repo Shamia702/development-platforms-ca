@@ -28,7 +28,6 @@ export async function initCreate() {
       return;
     }
 
-    // Loader
     if (btn) {
       btn.disabled = true;
       btn.textContent = "Submitting...";
