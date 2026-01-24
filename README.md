@@ -61,7 +61,7 @@ Create a table named articles with Row Level Security enabled.
 ### 3.Add Supabase URL + anon key in the project
 
 Open **js/supabase.js** and replace the placeholders:
-```bash
+```js
 const supabaseUrl = "Your_Project_Url";
 const supabaseKey = "Your_Anon_Key";
 ```
