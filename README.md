@@ -102,3 +102,14 @@ Overall, Supabase is faster and simpler to set up, while a custom Express API wo
 
 ## Author
 Shamia
+
+## AI Usage
+
+AI tools (ChatGPT) were used during this project for:
+- Reviewing and improving README documentation clarity and structure
+- Explaining Git and GitHub workflows (pull, push, resolving errors)
+- Clarifying Supabase concepts such as authentication and Row Level Security (RLS)
+
+All application logic, database design, and frontend implementation were written, tested, and understood by me.  
+No AI-generated code was used without review or understanding.
+
