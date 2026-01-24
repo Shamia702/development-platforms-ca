@@ -1,5 +1,4 @@
 # News Platform
-
 A simple news platform where anyone can browse articles and authenticated users can submit new articles. This project is built with vanilla JavaScript and uses Supabase for the backend.
 
 ## Features
@@ -21,20 +20,72 @@ A simple news platform where anyone can browse articles and authenticated users 
 
 ### Installation
 
-1.  Clone the repo
-    ```bash
-    git clone https://github.com/your-username/development-platforms-ca.git
-    ```
+1. Clone the repo:
+```bash
+git clone https://github.com/Shamia702/development-platforms-ca.git
+```
 2.  Navigate to the project directory
-    ```bash
-    cd development-platforms-ca
-    ```
+```bash
+cd development-platforms-ca
+```
+## Run locally (Live Server)
+    
+This project uses ES Modules, so it should be run with a local server.
 
 **Using the Live Server extension in Visual Studio Code:**
+    
+ - Install Live Server
+ - Right-click index.html → Open with Live Server
+    
+## Supabase Setup
+### 1.Create a Supabase project
+Create a Supabase project and enable Email/Password authentication (email confirmation enabled).
 
-- Install Live Server
-- Right-click index.html → Open with Live Server
+### 2.Create the articles table (RLS enabled)
+Create a table named articles with Row Level Security enabled.
 
+**Columns**
+
+- id (int8, primary key, auto)
+
+- created_at (default now())
+
+- title (text, not null)
+
+- body (text, not null)
+
+- category (text, not null)
+
+- submitted_by (uuid, default auth.uid())
+
+### 3.Add Supabase URL + anon key in the project
+
+Open **js/supabase.js** and replace the placeholders:
+```bash
+const supabaseUrl = "Your_Project_Url";
+const supabaseKey = "Your_Anon_Key";
+```
+### 4.Row Level Security (RLS) Policies (Required)
+
+To make the app work securely, Row Level Security must remain enabled on the articles table.
+
+Go to **Supabase Dashboard → SQL Editor** and run:
+
+```sql
+-- Public can read all articles (required for public browsing)
+CREATE POLICY "Public can read articles" ON public.articles
+FOR SELECT USING (true);
+
+-- Logged-in users can create articles (submitted_by must match logged-in user)
+CREATE POLICY "Users can create articles" ON public.articles
+FOR INSERT TO authenticated
+WITH CHECK (auth.uid() = submitted_by);
+
+-- Logged-in users can delete their own articles
+CREATE POLICY "Users can delete own articles" ON public.articles
+FOR DELETE TO authenticated
+USING (auth.uid() = submitted_by);
+```
 ## Pages
 
 - index.html — Public article feed
@@ -42,12 +93,12 @@ A simple news platform where anyone can browse articles and authenticated users 
 - register.html — Register page
 - create.html — Create article (auth protected)
 
-## Motivation:
-I chose the Supabase option because it let me build a complete full-stack solution quickly without having to write and host a custom backend API. Supabase gave me authentication, a PostgreSQL database, and security features (RLS) out of the box, which matched the assignment requirements well.
+## Motivation Section:
+I chose the Supabase option because it allowed me to build a full working platform quickly without writing and hosting a custom backend API. Supabase provided authentication, a PostgreSQL database, and Row Level Security (RLS), 
 
-What I enjoyed most was connecting the frontend to real backend services and seeing the whole flow working: register → confirm email → login → create an article → see it appear in the public feed. I also liked how the UI could change based on whether a user is logged in or not.
+I enjoyed connecting the frontend to real backend services and seeing the full flow working: register → confirm email → login → create an article → view it in the public feed. The hardest part was setting up and testing RLS policies so that anyone can read articles, only logged-in users can create them, and only the author can delete their own articles. I also had to debug some module path and styling issues, which helped me understand how the project structure works.
 
-The hardest part was configuring Row Level Security policies correctly. It took some trial and testing to make sure the public could read articles, while only authenticated users could create articles, and only the original author could delete their own posts. I also found debugging small issues (like file paths and styling conflicts) a bit time-consuming, but it helped me understand the project structure better.
+Overall, Supabase is faster and simpler to set up, while a custom Express API would give more control but would take more time to build and secure.
 
 ## Author
 Shamia
