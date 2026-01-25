@@ -7,18 +7,52 @@ export function initRegister() {
 
   if (!form) return;
 
+  let msgTimer = null;
+
+  function setMsg(text = "", type = "error", autoHideMs = 0) {
+    if (!msg) return;
+
+    if (msgTimer) {
+      clearTimeout(msgTimer);
+      msgTimer = null;
+    }
+
+    msg.textContent = text;
+    msg.classList.toggle("ok", type === "ok");
+
+    if (autoHideMs > 0 && text) {
+      msgTimer = setTimeout(() => {
+        msg.textContent = "";
+        msg.classList.remove("ok");
+        msgTimer = null;
+      }, autoHideMs);
+    }
+  }
+
+  setMsg("");
+
+  const emailInput = form.querySelector('input[name="email"]');
+  const passInput = form.querySelector('input[name="password"]');
+
+  [emailInput, passInput].forEach((el) => {
+    if (!el) return;
+    el.addEventListener("input", () => setMsg(""));
+  });
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (msg) {
-      msg.textContent = "";
-      msg.classList.remove("ok");
-    }
+    setMsg("");
 
     const email = form.email.value.trim();
     const password = form.password.value;
 
     if (!email || !password) {
-      if (msg) msg.textContent = "Please enter email and password.";
+      setMsg("Enter email + password.", "error", 2500);
+      return;
+    }
+
+    if (password.length < 6) {
+      setMsg("Password must be 6+ characters.", "error", 2500);
       return;
     }
 
@@ -27,12 +61,9 @@ export function initRegister() {
       btn.textContent = "Creating account...";
     }
 
-    const emailRedirectTo = `${window.location.origin}/index.html`;
-
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo },
     });
 
     if (btn) {
@@ -41,19 +72,18 @@ export function initRegister() {
     }
 
     if (error) {
-      if (msg) msg.textContent = error.message;
+      setMsg(error.message, "error", 3000);
       return;
     }
 
     const alreadyRegistered = data?.user?.identities?.length === 0;
 
-    if (msg) {
-      msg.textContent = alreadyRegistered
-        ? "This email is already registered. Try logging in instead."
-        : "Success! If an account exists for this email, you’ll receive a confirmation email.";
-      msg.classList.add("ok");
+    if (alreadyRegistered) {
+      setMsg("Email already registered. Try login.", "error", 3000);
+      return;
     }
 
+    setMsg("Success! Check your email to confirm.", "ok", 4000);
     form.reset();
   });
 }
